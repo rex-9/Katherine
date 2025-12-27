@@ -209,27 +209,34 @@ function initTypewriter() {
 // Call the function when page loads
 document.addEventListener('DOMContentLoaded', initTypewriter);
 
-// Testimonial auto-rotate (optional)
+// Testimonial auto-highlight
 function initTestimonials() {
   const testimonialCards = document.querySelectorAll('.testimonial-card');
   if (testimonialCards.length === 0) return;
 
+  // Disable on mobile view
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) {
+    // Reset styles to avoid weird states
+    testimonialCards.forEach(card => {
+      card.style.opacity = '1';
+      card.style.transform = 'scale(1)';
+      card.style.transition = 'none';
+    });
+    return;
+  }
+
   let currentIndex = 0;
 
   function rotateTestimonials() {
-    // Remove active class from all cards
     testimonialCards.forEach(card => {
       card.style.opacity = '0.7';
       card.style.transform = 'scale(0.95)';
     });
 
-    // Add active class to current card
-    if (testimonialCards[currentIndex]) {
-      testimonialCards[currentIndex].style.opacity = '1';
-      testimonialCards[currentIndex].style.transform = 'scale(1)';
-    }
+    testimonialCards[currentIndex].style.opacity = '1';
+    testimonialCards[currentIndex].style.transform = 'scale(1)';
 
-    // Move to next card
     currentIndex = (currentIndex + 1) % testimonialCards.length;
   }
 
@@ -245,14 +252,13 @@ function initTestimonials() {
     }
   });
 
-  // Start rotation if more than 1 testimonial
   if (testimonialCards.length > 1) {
     setInterval(rotateTestimonials, 4000);
   }
 }
 
-// Call in DOMContentLoaded
 document.addEventListener('DOMContentLoaded', initTestimonials);
+
 
 // Testimonials Carousel
 function initTestimonialsCarousel() {
