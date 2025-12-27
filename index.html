@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katherine - Kindergarten Teacher & English Tutor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Katherine</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="container">
+          <div class="hero-content">
+              <h1>
+                  <span class="hero-small">Hello! I'm</span>
+                  <span class="hero-name">Katherine</span><br>
+                  <span class="hero-small">Your</span>
+                  <span id="typewriter-text"></span>
+              </h1>
+              <p>With 8 amazing years of giggles, games, and growing together, I love to transform studying into exciting adventures! Let's make education an absolute blast both in our colorful classroom and magical online classes!</p>
+              <a href="#about" class="cta-button">Learn More About Me</a>
+              <a href="#contact" class="cta-button cta-button-secondary">Contact Me</a>
+          </div>
+          <img src="https://imgix.bustle.com/uploads/image/2022/12/22/7b69d087-0582-46e1-8577-012e66d6caf5-08_8-5b_059-edit.jpg?w=1200&h=900&fit=crop&crop=faces&fm=jpg" alt="Katherine - Kindergarten Teacher" class="hero-image">
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>My Teaching Philosophy</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Where Learning Meets Magic</h3>
+                    <p>Imagine a classroom where learning feels like playtime—that's my superpower! I turn boring lessons into exciting adventures, transforming "study time" into "fun time" with giggles, games, and magical moments.</p>
+                    <p>My secret recipe? Mixing play-based discovery with skill-building magic! Kids don't just learn English—they fall in love with it through songs, stories, and silly games that make every word memorable.</p>
+                    <p>My teaching style is like a treasure hunt: every lesson hides golden nuggets of knowledge, and every child is an explorer discovering their own brilliance!</p>
+                    <p>Certified to teach but born to inspire, I create English adventures that turn "I can't" into "I DID IT!" with high-fives all around! 🖐️</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-text">Unlimited Creativity</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">1-on-1</div>
+                            <div class="stat-text">Personalized Attention</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">🌟</div>
+                            <div class="stat-text">Sparkling Results</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-title">
+                <h2>My Teaching Adventures 🎨</h2>
+            </div>
+
+            <div class="experience-wrapper">
+                <button class="exp-carousel-btn exp-carousel-prev" aria-label="Previous experience">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="experience-container">
+                    <div class="experience-card" data-modal="kindergarten">
+                        <div class="exp-image-container">
+                            <img src="https://www.successacademies.org/wp-content/uploads/2024/12/6-successacademies_25048656-1-scaled.jpg" alt="Kindergarten Classroom Fun" class="exp-image">
+                            <div class="exp-overlay">
+                                <i class="fas fa-images"></i>
+                                <span>View Gallery</span>
+                            </div>
+                        </div>
+                        <div class="exp-content">
+                            <h3>Kindergarten Magic 🏫</h3>
+                            <p>Where every day is a new adventure! Creating colorful classrooms filled with giggles, games, and growing moments for ages 3-6.</p>
+                            <button class="exp-view-btn">Explore the Magic ✨</button>
+                        </div>
+                    </div>
+
+                    <div class="experience-card" data-modal="tutoring">
+                        <div class="exp-image-container">
+                            <img src="https://breakintoenglish.com/wp-content/uploads/2024/09/English-classes-for-kids-by-Skype-with-a-native-teacher.webp" alt="Online English Tutoring" class="exp-image">
+                            <div class="exp-overlay">
+                                <i class="fas fa-video"></i>
+                                <span>See Sessions</span>
+                            </div>
+                        </div>
+                        <div class="exp-content">
+                            <h3>English Adventures Online 🌍</h3>
+                            <p>Cambridge-certified fun! Turning screen time into learning time with interactive sessions that make English exciting.</p>
+                            <button class="exp-view-btn">See the Fun 📚</button>
+                        </div>
+                    </div>
+
+                    <div class="experience-card" data-modal="activities">
+                        <div class="exp-image-container">
+                            <img src="https://teachmiddleeastmag.com/wp-content/uploads/2015/08/Lubna-June.jpg" alt="Creative Classroom Moments" class="exp-image">
+                            <div class="exp-overlay">
+                                <i class="fas fa-play-circle"></i>
+                                <span>Watch Video</span>
+                            </div>
+                        </div>
+                        <div class="exp-content">
+                            <h3>Creative Classroom Moments 🎭</h3>
+                            <p>Songs, stories, and silly games! Watch how I turn learning into playtime with creative activities kids love.</p>
+                            <button class="exp-view-btn">Watch the Joy 🎵</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="exp-carousel-btn exp-carousel-next" aria-label="Next experience">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="exp-carousel-dots">
+                <!-- Dots will be added by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Happy Parents & Little Stars Say ✨</h2>
+            </div>
+
+            <div class="testimonials-wrapper">
+                <button class="carousel-btn carousel-btn-prev" aria-label="Previous testimonial">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="testimonials-container">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">❝</div>
+                            <p class="testimonial-text">Ms. Katherine turned my shy daughter into a confident little speaker! Now she greets everyone with "Hello!" and sings English songs all day long. 🎵</p>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>Mai's Mom</h4>
+                                    <p>Parent of 5-year-old student</p>
+                                </div>
+                                <div class="rating">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">❝</div>
+                            <p class="testimonial-text">Our online sessions are the highlight of my son's week! He calls it "Playtime with Teacher Kat" and doesn't even realize he's learning! 🎮📚</p>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>David's Dad</h4>
+                                    <p>Online tutoring parent</p>
+                                </div>
+                                <div class="rating">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">❝</div>
+                            <p class="testimonial-text">The transformation in our kindergarten class is magical! Every child runs to school excited to see what adventure Ms. Katherine has prepared! 🌈</p>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>Principal Nguyen</h4>
+                                    <p>Sunshine Kindergarten</p>
+                                </div>
+                                <div class="rating">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional testimonials (hidden initially) -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">❝</div>
+                            <p class="testimonial-text">Teacher Katherine's patience is incredible! My twins went from struggling with English to being little chatterboxes in just 3 months! 🗣️✨</p>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>Emma & Liam's Mom</h4>
+                                    <p>Parent of twin 4-year-olds</p>
+                                </div>
+                                <div class="rating">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">❝</div>
+                            <p class="testimonial-text">The online Cambridge sessions are worth every penny! My daughter's English improved so much she started helping ME with pronunciation! 😊🌍</p>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>Sophia's Father</h4>
+                                    <p>International family</p>
+                                </div>
+                                <div class="rating">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-btn carousel-btn-next" aria-label="Next testimonial">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="carousel-dots">
+                <!-- Dots will be added by JavaScript -->
+            </div>
+
+            <div class="testimonial-cta">
+                <p>Join hundreds of happy families experiencing the magic! 💫</p>
+                <a href="#contact" class="cta-button">Start Your Learning Adventure</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Me</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Let's Create Magic Together! ✨</h3>
+                    <p>Dreaming of English adventures or playful kindergarten days? Let's turn those dreams into reality! Let's turn 'I can't' into 'I CAN!' with smiles all around!" 😊🎉</p>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>katherine.educator@example.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+84 123 456 789</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Da Lat, Vietnam</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h3>Send a Message</h3>
+                    <form id="contactForm" action="https://formspree.io/f/xpzvwljd" method="POST">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" class="form-control" required>
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="kindergarten">Kindergarten Teaching Position</option>
+                                <option value="tutoring">Online English Tutoring</option>
+                                <option value="collaboration">Educational Collaboration</option>
+                                <option value="other">Other Inquiry</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+                        </div>
+
+                        <button type="submit" class="cta-button form-submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-quote">"A kid's smile is my favorite reward!"</p>
+                <!-- <p class="footer-quote">"Turning 'I can't' into 'I did it!' with smiles all around!" 🎉✨</p> -->
+                <!-- <p class="footer-quote">"Every child is a story waiting to be written with wonder, laughter, and endless possibilities!" ✨</p> -->
+
+                <div class="footer-links">
+                    <div class="logo footer-logo">~ Katherine ~</div>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="copyright">
+                    Sparking joy in learning since <span id="startYear">2015</span> • &copy; <span id="currentYear"></span> Katherine
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+        <!-- Experience Modal -->
+    <div class="exp-modal" id="experienceModal">
+        <div class="exp-modal-content">
+            <button class="exp-modal-close">&times;</button>
+
+            <div class="exp-modal-carousel">
+                <button class="modal-carousel-btn modal-prev" aria-label="Previous image">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="modal-images">
+                    <!-- Images will be inserted by JavaScript -->
+                </div>
+
+                <button class="modal-carousel-btn modal-next" aria-label="Next image">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="exp-modal-info">
+                <h3 id="modalTitle">Kindergarten Magic</h3>
+                <p id="modalDescription">Where every day is a new adventure!</p>
+                <div class="modal-carousel-dots">
+                    <!-- Dots will be added by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
