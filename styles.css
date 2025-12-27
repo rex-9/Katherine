@@ -301,6 +301,19 @@ nav {
   margin-left: 15px;
 }
 
+.cta-button-resume {
+  background: var(--soft-white);
+  color: var(--dark-pink);
+  border: 2px solid var(--primary-pink);
+  margin-left: 15px;
+}
+
+.cta-button-resume:hover {
+  background: var(--gradient-pink);
+  color: white;
+  border-color: transparent;
+}
+
 /* Sections */
 section {
   padding: 80px 0;
