@@ -21,29 +21,49 @@ navItems.forEach(item => {
   });
 });
 
-// Form submission handling
+// Form submission with formspree
 if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Get form data
-    const formData = new FormData(contactForm);
+    // Validate first
+    if (!validateForm()) {
+      return false;
+    }
 
-    // In a real implementation, you would send this to Formspree
-    // For this demo, we'll simulate a submission
     const submitBtn = contactForm.querySelector('.form-submit-btn');
     const originalText = submitBtn.textContent;
 
+    // Show loading state
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
 
-    // Simulate API call delay
-    setTimeout(() => {
-      alert('Thank you for your message! Katherine will get back to you soon.');
-      contactForm.reset();
+    try {
+      const formData = new FormData(contactForm);
+      const formAction = contactForm.getAttribute('action');
+
+      const response = await fetch(formAction, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        contactForm.reset();
+        alert('Thank you for your message! Katherine will get back to you soon.');
+      } else {
+        throw new Error('Form submission failed');
+      }
+
+    } catch (error) {
+      console.error('Form error:', error);
+      alert('There was an issue sending your message. Please try again or email Katherine directly at katherine.edu@gmail.com');
+    } finally {
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
-    }, 1500);
+    }
   });
 }
 
