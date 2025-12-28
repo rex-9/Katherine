@@ -206,9 +206,6 @@ function initTypewriter() {
   setTimeout(type, 1000);
 }
 
-// Call the function when page loads
-document.addEventListener('DOMContentLoaded', initTypewriter);
-
 // Testimonial auto-highlight
 function initTestimonials() {
   const testimonialCards = document.querySelectorAll('.testimonial-card');
@@ -257,189 +254,37 @@ function initTestimonials() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', initTestimonials);
-
-
-// Testimonials Carousel
-function initTestimonialsCarousel() {
-  const container = document.querySelector('.testimonials-container');
-  const prevBtn = document.querySelector('.carousel-btn-prev');
-  const nextBtn = document.querySelector('.carousel-btn-next');
-  const dotsContainer = document.querySelector('.carousel-dots');
-
-  if (!container || !prevBtn || !nextBtn) return;
-
-  const cards = document.querySelectorAll('.testimonial-card');
-  const cardWidth = cards[0] ? cards[0].offsetWidth + 30 : 330; // card width + gap
-  const visibleCards = window.innerWidth >= 992 ? 3 : window.innerWidth >= 768 ? 2 : 1;
-  let currentPosition = 0;
-  let maxPosition = Math.max(0, cards.length - visibleCards);
-
-  // Create dots
-  if (dotsContainer) {
-    for (let i = 0; i <= maxPosition; i++) {
-      const dot = document.createElement('button');
-      dot.className = `carousel-dot ${i === 0 ? 'active' : ''}`;
-      dot.setAttribute('aria-label', `Go to testimonial group ${i + 1}`);
-      dot.addEventListener('click', () => {
-        goToPosition(i);
-      });
-      dotsContainer.appendChild(dot);
-    }
-  }
-
-  function updateDots() {
-    const dots = document.querySelectorAll('.carousel-dot');
-    dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentPosition);
-    });
-  }
-
-  function goToPosition(position) {
-    currentPosition = Math.max(0, Math.min(position, maxPosition));
-    container.scrollTo({
-      left: currentPosition * cardWidth,
-      behavior: 'smooth'
-    });
-    updateDots();
-  }
-
-  // Next button
-  nextBtn.addEventListener('click', () => {
-    if (currentPosition < maxPosition) {
-      goToPosition(currentPosition + 1);
-    } else {
-      goToPosition(0); // Loop back to start
-    }
-  });
-
-  // Previous button
-  prevBtn.addEventListener('click', () => {
-    if (currentPosition > 0) {
-      goToPosition(currentPosition - 1);
-    } else {
-      goToPosition(maxPosition); // Loop to end
-    }
-  });
-
-  // Update on window resize
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      const newVisibleCards = window.innerWidth >= 992 ? 3 : window.innerWidth >= 768 ? 2 : 1;
-      maxPosition = Math.max(0, cards.length - newVisibleCards);
-
-      // Remove extra dots if needed
-      const dots = document.querySelectorAll('.carousel-dot');
-      if (dots.length > maxPosition + 1) {
-        for (let i = dots.length - 1; i > maxPosition; i--) {
-          dots[i].remove();
-        }
-      }
-      // Add dots if needed
-      else if (dots.length < maxPosition + 1) {
-        for (let i = dots.length; i <= maxPosition; i++) {
-          const dot = document.createElement('button');
-          dot.className = `carousel-dot ${i === currentPosition ? 'active' : ''}`;
-          dot.setAttribute('aria-label', `Go to testimonial group ${i + 1}`);
-          dot.addEventListener('click', () => {
-            goToPosition(i);
-          });
-          dotsContainer.appendChild(dot);
-        }
-      }
-
-      // Adjust current position if it's now beyond max
-      if (currentPosition > maxPosition) {
-        currentPosition = maxPosition;
-        goToPosition(currentPosition);
-      }
-    }, 250);
-  });
-
-  // Optional: Auto-advance every 5 seconds
-  let autoAdvanceInterval = setInterval(() => {
-    if (currentPosition < maxPosition) {
-      goToPosition(currentPosition + 1);
-    } else {
-      goToPosition(0);
-    }
-  }, 5000);
-
-  // Pause auto-advance on hover
-  container.addEventListener('mouseenter', () => {
-    clearInterval(autoAdvanceInterval);
-  });
-
-  container.addEventListener('mouseleave', () => {
-    autoAdvanceInterval = setInterval(() => {
-      if (currentPosition < maxPosition) {
-        goToPosition(currentPosition + 1);
-      } else {
-        goToPosition(0);
-      }
-    }, 5000);
-  });
-
-  // Initialize
-  updateDots();
-}
-
-// Call in DOMContentLoaded
-document.addEventListener('DOMContentLoaded', initTestimonialsCarousel);
-
-// Experience Carousel with Modal
+// Enhanced Experience Carousel with swipe support
 function initExperienceCarousel() {
   const container = document.querySelector('.experience-container');
   const prevBtn = document.querySelector('.exp-carousel-prev');
   const nextBtn = document.querySelector('.exp-carousel-next');
   const dotsContainer = document.querySelector('.exp-carousel-dots');
   const expCards = document.querySelectorAll('.experience-card');
-  const modal = document.getElementById('experienceModal');
-  const modalClose = document.querySelector('.exp-modal-close');
-  const viewButtons = document.querySelectorAll('.exp-view-btn');
 
-  if (!container || !prevBtn || !nextBtn) return;
+  if (!container || expCards.length === 0) return;
 
-  const cardWidth = expCards[0] ? expCards[0].offsetWidth + 30 : 330;
-  const visibleCards = window.innerWidth >= 992 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+  // Check if mobile (single card view)
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  // Calculate card width including gap and margins
+  let cardWidth;
+  if (isMobile) {
+    // On mobile, cards have margins: calc(100% - 40px) + 20px margin on each side
+    const cardStyle = window.getComputedStyle(expCards[0]);
+    cardWidth = expCards[0].offsetWidth + parseInt(cardStyle.marginLeft) + parseInt(cardStyle.marginRight);
+  } else {
+    // On desktop, use offsetWidth + gap (30px)
+    cardWidth = expCards[0].offsetWidth + 30;
+  }
+
+  const visibleCards = isMobile ? 1 : (window.innerWidth >= 992 ? 3 : 2);
   let currentPosition = 0;
   let maxPosition = Math.max(0, expCards.length - visibleCards);
 
-  // Experience data for modals
-  const experienceData = {
-    kindergarten: {
-      title: "Kindergarten Magic 🏫",
-      description: "Where every day is a new adventure! Creating colorful classrooms filled with giggles, games, and growing moments for ages 3-6.",
-      images: [
-        'https://www.successacademies.org/wp-content/uploads/2024/12/6-successacademies_25048656-1-scaled.jpg',
-        'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://www.successacademies.org/wp-content/uploads/2024/12/6-successacademies_25048656-1-scaled.jpg'
-      ]
-    },
-    tutoring: {
-      title: "English Adventures Online 🌍",
-      description: "Cambridge-certified fun! Turning screen time into learning time with interactive sessions that make English exciting.",
-      images: [
-        'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-      ]
-    },
-    activities: {
-      title: "Creative Classroom Moments 🎭",
-      description: "Songs, stories, and silly games! Watch how I turn learning into playtime with creative activities kids love.",
-      images: [
-        'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1541692641319-981cc79ee10a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-      ]
-    }
-  };
-
   // Create dots for main carousel
   if (dotsContainer) {
+    dotsContainer.innerHTML = '';
     for (let i = 0; i <= maxPosition; i++) {
       const dot = document.createElement('button');
       dot.className = `exp-carousel-dot ${i === 0 ? 'active' : ''}`;
@@ -458,183 +303,482 @@ function initExperienceCarousel() {
     });
   }
 
-  function goToPosition(position) {
+  // Update dots on scroll (for swipe)
+  container.addEventListener('scroll', () => {
+    const scrollPosition = container.scrollLeft;
+    const newPosition = Math.round(scrollPosition / cardWidth);
+
+    if (newPosition !== currentPosition && newPosition >= 0 && newPosition <= maxPosition) {
+      currentPosition = newPosition;
+      updateDots();
+    }
+  });
+
+  function goToPosition(position, smooth = true) {
     currentPosition = Math.max(0, Math.min(position, maxPosition));
+
+    // Calculate scroll position based on card width
+    const scrollPosition = currentPosition * cardWidth;
+
     container.scrollTo({
-      left: currentPosition * cardWidth,
-      behavior: 'smooth'
+      left: scrollPosition,
+      behavior: smooth ? 'smooth' : 'auto'
     });
     updateDots();
+
+    // Debug log
+    console.log(`Scrolling to position ${currentPosition}, scrollLeft: ${scrollPosition}, cardWidth: ${cardWidth}`);
   }
 
   // Next button
-  nextBtn.addEventListener('click', () => {
-    if (currentPosition < maxPosition) {
-      goToPosition(currentPosition + 1);
-    } else {
-      goToPosition(0);
-    }
-  });
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Next button clicked, currentPosition:', currentPosition, 'maxPosition:', maxPosition);
+
+      if (currentPosition < maxPosition) {
+        goToPosition(currentPosition + 1);
+      } else {
+        goToPosition(0);
+      }
+    });
+  }
 
   // Previous button
-  prevBtn.addEventListener('click', () => {
-    if (currentPosition > 0) {
-      goToPosition(currentPosition - 1);
-    } else {
-      goToPosition(maxPosition);
-    }
-  });
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Prev button clicked, currentPosition:', currentPosition);
 
-  // Modal functionality
-  function openModal(experienceType) {
-    const data = experienceData[experienceType];
-    if (!data) return;
-
-    // Set modal content
-    document.getElementById('modalTitle').textContent = data.title;
-    document.getElementById('modalDescription').textContent = data.description;
-
-    // Clear and add images
-    const modalImages = document.querySelector('.modal-images');
-    modalImages.innerHTML = '';
-
-    data.images.forEach((imgSrc, index) => {
-      const img = document.createElement('img');
-      img.src = imgSrc;
-      img.alt = data.title;
-      img.className = 'modal-image';
-      img.loading = 'lazy';
-      modalImages.appendChild(img);
-    });
-
-    // Create modal dots
-    const modalDots = document.querySelector('.modal-carousel-dots');
-    modalDots.innerHTML = '';
-
-    data.images.forEach((_, index) => {
-      const dot = document.createElement('button');
-      dot.className = `modal-carousel-dot ${index === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => {
-        goToModalSlide(index);
-      });
-      modalDots.appendChild(dot);
-    });
-
-    // Reset modal carousel position
-    modalCurrentSlide = 0;
-    modalImages.scrollLeft = 0;
-
-    // Show modal
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  // Add click events to experience cards
-  expCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (!e.target.closest('.exp-view-btn')) return;
-      const experienceType = card.getAttribute('data-modal');
-      openModal(experienceType);
-    });
-  });
-
-  // Modal carousel functionality
-  let modalCurrentSlide = 0;
-  const modalImages = document.querySelector('.modal-images');
-  const modalPrev = document.querySelector('.modal-prev');
-  const modalNext = document.querySelector('.modal-next');
-
-  function goToModalSlide(slideIndex) {
-    if (!modalImages) return;
-    const images = modalImages.querySelectorAll('.modal-image');
-    if (slideIndex < 0) slideIndex = images.length - 1;
-    if (slideIndex >= images.length) slideIndex = 0;
-
-    modalCurrentSlide = slideIndex;
-    modalImages.scrollTo({
-      left: slideIndex * modalImages.offsetWidth,
-      behavior: 'smooth'
-    });
-
-    // Update modal dots
-    const dots = document.querySelectorAll('.modal-carousel-dot');
-    dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === slideIndex);
+      if (currentPosition > 0) {
+        goToPosition(currentPosition - 1);
+      } else {
+        goToPosition(maxPosition);
+      }
     });
   }
-
-  if (modalPrev) {
-    modalPrev.addEventListener('click', () => {
-      goToModalSlide(modalCurrentSlide - 1);
-    });
-  }
-
-  if (modalNext) {
-    modalNext.addEventListener('click', () => {
-      goToModalSlide(modalCurrentSlide + 1);
-    });
-  }
-
-  // Close modal
-  if (modalClose) {
-    modalClose.addEventListener('click', () => {
-      modal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    });
-  }
-
-  // Close modal when clicking outside
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-  });
-
-  // Close modal with Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      modal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-  });
 
   // Update on window resize
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      const newVisibleCards = window.innerWidth >= 992 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+      const newIsMobile = window.matchMedia('(max-width: 768px)').matches;
+      const newVisibleCards = newIsMobile ? 1 : (window.innerWidth >= 992 ? 3 : 2);
       maxPosition = Math.max(0, expCards.length - newVisibleCards);
 
-      // Update dots if needed
-      const dots = document.querySelectorAll('.exp-carousel-dot');
-      if (dots.length > maxPosition + 1) {
-        for (let i = dots.length - 1; i > maxPosition; i--) {
-          dots[i].remove();
-        }
-      } else if (dots.length < maxPosition + 1) {
-        for (let i = dots.length; i <= maxPosition; i++) {
-          const dot = document.createElement('button');
-          dot.className = `exp-carousel-dot ${i === currentPosition ? 'active' : ''}`;
-          dot.setAttribute('aria-label', `Go to experience ${i + 1}`);
-          dot.addEventListener('click', () => {
-            goToPosition(i);
-          });
-          dotsContainer.appendChild(dot);
+      // Recalculate card width
+      if (newIsMobile) {
+        const cardStyle = window.getComputedStyle(expCards[0]);
+        cardWidth = expCards[0].offsetWidth + parseInt(cardStyle.marginLeft) + parseInt(cardStyle.marginRight);
+      } else {
+        cardWidth = expCards[0].offsetWidth + 30;
+      }
+
+      // Recreate dots if needed
+      if (dotsContainer) {
+        const dots = document.querySelectorAll('.exp-carousel-dot');
+        if (dots.length !== maxPosition + 1) {
+          dotsContainer.innerHTML = '';
+          for (let i = 0; i <= maxPosition; i++) {
+            const dot = document.createElement('button');
+            dot.className = `exp-carousel-dot ${i === currentPosition ? 'active' : ''}`;
+            dot.setAttribute('aria-label', `Go to experience ${i + 1}`);
+            dot.addEventListener('click', () => {
+              goToPosition(i);
+            });
+            dotsContainer.appendChild(dot);
+          }
         }
       }
 
+      // Adjust current position if needed
       if (currentPosition > maxPosition) {
         currentPosition = maxPosition;
-        goToPosition(currentPosition);
+        goToPosition(currentPosition, false);
       }
+
+      updateDots();
     }, 250);
   });
 
   // Initialize
   updateDots();
+  console.log('Experience carousel initialized, cardWidth:', cardWidth, 'visibleCards:', visibleCards);
+
+  // Modal functionality
+  const modal = document.getElementById('experienceModal');
+  const modalClose = document.querySelector('.exp-modal-close');
+
+  if (modal && modalClose) {
+    // Experience data for modals
+    const experienceData = {
+      kindergarten: {
+        title: "Kindergarten Magic 🏫",
+        description: "Where every day is a new adventure! Creating colorful classrooms filled with giggles, games, and growing moments for ages 3-6.",
+        images: [
+          'kat-angels.jpg',
+          'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          'https://www.successacademies.org/wp-content/uploads/2024/12/6-successacademies_25048656-1-scaled.jpg'
+        ]
+      },
+      tutoring: {
+        title: "English Adventures Online 🌍",
+        description: "Cambridge-certified fun! Turning screen time into learning time with interactive sessions that make English exciting.",
+        images: [
+          'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+        ]
+      },
+      activities: {
+        title: "Creative Classroom Moments 🎭",
+        description: "Songs, stories, and silly games! Watch how I turn learning into playtime with creative activities kids love.",
+        images: [
+          'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541692641319-981cc79ee10a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+        ]
+      }
+    };
+
+    // Add click events to experience cards
+    expCards.forEach(card => {
+      const viewBtn = card.querySelector('.exp-view-btn');
+      if (viewBtn) {
+        viewBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const experienceType = card.getAttribute('data-modal');
+          if (experienceType) {
+            openModal(experienceType);
+          }
+        });
+      }
+    });
+
+    function openModal(experienceType) {
+      const data = experienceData[experienceType];
+      if (!data) return;
+
+      // Set modal content
+      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalDescription').textContent = data.description;
+
+      // Clear and add images
+      const modalImages = document.querySelector('.modal-images');
+      if (modalImages) {
+        modalImages.innerHTML = '';
+
+        data.images.forEach((imgSrc, index) => {
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          img.alt = data.title;
+          img.className = 'modal-image';
+          img.loading = 'lazy';
+          modalImages.appendChild(img);
+        });
+
+        // Create modal dots
+        const modalDots = document.querySelector('.modal-carousel-dots');
+        if (modalDots) {
+          modalDots.innerHTML = '';
+
+          data.images.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = `modal-carousel-dot ${index === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => {
+              goToModalSlide(index);
+            });
+            modalDots.appendChild(dot);
+          });
+
+          // Reset modal carousel position
+          modalCurrentSlide = 0;
+          modalImages.scrollLeft = 0;
+        }
+      }
+
+      // Show modal
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Modal carousel functionality
+    let modalCurrentSlide = 0;
+    const modalImages = document.querySelector('.modal-images');
+    const modalPrev = document.querySelector('.modal-prev');
+    const modalNext = document.querySelector('.modal-next');
+
+    function goToModalSlide(slideIndex) {
+      if (!modalImages) return;
+      const images = modalImages.querySelectorAll('.modal-image');
+      if (slideIndex < 0) slideIndex = images.length - 1;
+      if (slideIndex >= images.length) slideIndex = 0;
+
+      modalCurrentSlide = slideIndex;
+      modalImages.scrollTo({
+        left: slideIndex * modalImages.offsetWidth,
+        behavior: 'smooth'
+      });
+
+      // Update modal dots
+      const dots = document.querySelectorAll('.modal-carousel-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === slideIndex);
+      });
+    }
+
+    // Add swipe support for mobile modal
+    if (modalImages) {
+      // Update dots on scroll (for swipe)
+      modalImages.addEventListener('scroll', () => {
+        const scrollPosition = modalImages.scrollLeft;
+        const imageWidth = modalImages.offsetWidth;
+        const newSlide = Math.round(scrollPosition / imageWidth);
+
+        if (newSlide !== modalCurrentSlide && newSlide >= 0) {
+          modalCurrentSlide = newSlide;
+
+          // Update modal dots
+          const dots = document.querySelectorAll('.modal-carousel-dot');
+          dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === modalCurrentSlide);
+          });
+        }
+      });
+    }
+
+    if (modalPrev) {
+      modalPrev.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goToModalSlide(modalCurrentSlide - 1);
+      });
+    }
+
+    if (modalNext) {
+      modalNext.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goToModalSlide(modalCurrentSlide + 1);
+      });
+    }
+
+    // Close modal
+    modalClose.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
+}
+
+// Enhanced Testimonials Carousel with swipe support
+function initTestimonialsCarousel() {
+  const container = document.querySelector('.testimonials-container');
+  const prevBtn = document.querySelector('.carousel-btn-prev');
+  const nextBtn = document.querySelector('.carousel-btn-next');
+  const dotsContainer = document.querySelector('.carousel-dots');
+
+  if (!container) return;
+
+  const cards = document.querySelectorAll('.testimonial-card');
+  if (cards.length === 0) return;
+
+  // Check if mobile (single card view)
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  // Calculate card width including gap and margins
+  let cardWidth;
+  if (isMobile) {
+    // On mobile, cards have margins: calc(100% - 40px) + 20px margin on each side
+    const cardStyle = window.getComputedStyle(cards[0]);
+    cardWidth = cards[0].offsetWidth + parseInt(cardStyle.marginLeft) + parseInt(cardStyle.marginRight);
+  } else {
+    // On desktop, use offsetWidth + gap (30px)
+    cardWidth = cards[0].offsetWidth + 30;
+  }
+
+  const visibleCards = isMobile ? 1 : (window.innerWidth >= 992 ? 3 : 2);
+  let currentPosition = 0;
+  let maxPosition = Math.max(0, cards.length - visibleCards);
+
+  // Create dots
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i <= maxPosition; i++) {
+      const dot = document.createElement('button');
+      dot.className = `carousel-dot ${i === 0 ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Go to testimonial group ${i + 1}`);
+      dot.addEventListener('click', () => {
+        goToPosition(i);
+      });
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function updateDots() {
+    const dots = document.querySelectorAll('.carousel-dot');
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentPosition);
+    });
+  }
+
+  // Update dots on scroll (for swipe)
+  container.addEventListener('scroll', () => {
+    const scrollPosition = container.scrollLeft;
+    const newPosition = Math.round(scrollPosition / cardWidth);
+
+    if (newPosition !== currentPosition && newPosition >= 0 && newPosition <= maxPosition) {
+      currentPosition = newPosition;
+      updateDots();
+    }
+  });
+
+  function goToPosition(position, smooth = true) {
+    currentPosition = Math.max(0, Math.min(position, maxPosition));
+
+    // Calculate scroll position based on card width
+    const scrollPosition = currentPosition * cardWidth;
+
+    container.scrollTo({
+      left: scrollPosition,
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+    updateDots();
+
+    // Debug log
+    console.log(`Testimonials: Scrolling to position ${currentPosition}, scrollLeft: ${scrollPosition}, cardWidth: ${cardWidth}`);
+  }
+
+  // Next button
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Testimonials Next button clicked, currentPosition:', currentPosition);
+
+      if (currentPosition < maxPosition) {
+        goToPosition(currentPosition + 1);
+      } else {
+        goToPosition(0);
+      }
+    });
+  }
+
+  // Previous button
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Testimonials Prev button clicked, currentPosition:', currentPosition);
+
+      if (currentPosition > 0) {
+        goToPosition(currentPosition - 1);
+      } else {
+        goToPosition(maxPosition);
+      }
+    });
+  }
+
+  // Update on window resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      const newIsMobile = window.matchMedia('(max-width: 768px)').matches;
+      const newVisibleCards = newIsMobile ? 1 : (window.innerWidth >= 992 ? 3 : 2);
+      maxPosition = Math.max(0, cards.length - newVisibleCards);
+
+      // Recalculate card width
+      if (newIsMobile) {
+        const cardStyle = window.getComputedStyle(cards[0]);
+        cardWidth = cards[0].offsetWidth + parseInt(cardStyle.marginLeft) + parseInt(cardStyle.marginRight);
+      } else {
+        cardWidth = cards[0].offsetWidth + 30;
+      }
+
+      // Recreate dots if needed
+      if (dotsContainer) {
+        const dots = document.querySelectorAll('.carousel-dot');
+        if (dots.length !== maxPosition + 1) {
+          dotsContainer.innerHTML = '';
+          for (let i = 0; i <= maxPosition; i++) {
+            const dot = document.createElement('button');
+            dot.className = `carousel-dot ${i === currentPosition ? 'active' : ''}`;
+            dot.setAttribute('aria-label', `Go to testimonial group ${i + 1}`);
+            dot.addEventListener('click', () => {
+              goToPosition(i);
+            });
+            dotsContainer.appendChild(dot);
+          }
+        }
+      }
+
+      if (currentPosition > maxPosition) {
+        currentPosition = maxPosition;
+        goToPosition(currentPosition, false);
+      }
+
+      updateDots();
+    }, 250);
+  });
+
+  // Auto-advance (desktop only)
+  if (!isMobile) {
+    let autoAdvanceInterval = setInterval(() => {
+      if (currentPosition < maxPosition) {
+        goToPosition(currentPosition + 1);
+      } else {
+        goToPosition(0);
+      }
+    }, 5000);
+
+    container.addEventListener('mouseenter', () => {
+      clearInterval(autoAdvanceInterval);
+    });
+
+    container.addEventListener('mouseleave', () => {
+      autoAdvanceInterval = setInterval(() => {
+        if (currentPosition < maxPosition) {
+          goToPosition(currentPosition + 1);
+        } else {
+          goToPosition(0);
+        }
+      }, 5000);
+    });
+  }
+
+  // Initialize
+  updateDots();
+  console.log('Testimonials carousel initialized, cardWidth:', cardWidth, 'visibleCards:', visibleCards);
 }
 
 // Call in DOMContentLoaded
-document.addEventListener('DOMContentLoaded', initExperienceCarousel);
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Katherine\'s portfolio website loaded successfully!');
+  initTypewriter();
+  initTestimonials();
+  initExperienceCarousel();
+  initTestimonialsCarousel();
+});

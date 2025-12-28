@@ -1105,6 +1105,10 @@ footer {
   font-weight: 600;
 }
 
+.mobile-only {
+  display: none;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .hero {
@@ -1205,23 +1209,40 @@ footer {
     gap: 20px;
   }
 
-  .experience-wrapper {
-    gap: 10px;
+  /* Center single card on mobile */
+  .experience-container,
+  .testimonials-container {
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
+    padding: 10px 20px;
   }
 
-  .experience-card {
-    flex: 0 0 calc(100% - 20px);
-    min-width: calc(100% - 20px);
+  .experience-card,
+  .testimonial-card {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    flex: 0 0 calc(100% - 40px);
+    min-width: calc(100% - 40px);
+    margin: 0 10px;
+  }
+
+  /* Hide arrows ONLY on mobile */
+  .exp-carousel-btn,
+  .carousel-btn {
+    display: none;
+  }
+
+  /* Adjust container width for proper centering */
+  .experience-wrapper,
+  .testimonials-wrapper {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .exp-content {
     min-height: 200px;
-  }
-
-  .exp-carousel-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
   }
 
   .exp-modal-content {
@@ -1236,32 +1257,36 @@ footer {
     font-size: 24px;
   }
 
-  .testimonials-container {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .testimonials-wrapper {
-    gap: 10px;
-  }
-
-  .testimonial-card {
-    flex: 0 0 calc(100% - 20px);
-    min-width: calc(100% - 20px);
-  }
-
-  .carousel-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-
   .testimonial-cta {
     padding: 30px 20px;
   }
 
   .testimonial-cta p {
     font-size: 18px;
+  }
+
+  .modal-carousel-btn {
+    display: none;
+    /* Hide arrows on mobile */
+  }
+
+  .modal-images {
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+  }
+
+  .modal-image {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    flex: 0 0 100%;
+    min-width: 100%;
+    padding: 10px;
+    /* Reduce padding on mobile */
+  }
+
+  .exp-modal-carousel {
+    height: 300px;
+    /* Adjust height for mobile */
   }
 
   footer {
@@ -1283,6 +1308,10 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .mobile-only {
+    display: block;
+  }
+
   .hero h1 {
     font-size: 28px;
     line-height: 1.3;
@@ -1330,6 +1359,22 @@ footer {
     margin-left: 0;
   }
 
+  /* Ensure cards are properly centered */
+  .experience-card,
+  .testimonial-card {
+    flex: 0 0 calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    margin: 0 auto;
+  }
+
+  /* Center the containers */
+  .experience-container,
+  .testimonials-container {
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+  }
+
   .exp-content {
     min-height: 190px;
     padding: 20px;
@@ -1360,14 +1405,6 @@ footer {
     width: 40px;
     height: 40px;
     font-size: 16px;
-  }
-
-  .testimonials-container {
-    gap: 20px;
-  }
-
-  .testimonial-card {
-    padding: 25px;
   }
 
   .carousel-btn {
