@@ -780,7 +780,7 @@ const CONFETTI_SYMBOLS = ['🎂', '🎀', '✨', '🌸', '💖', '🎉', '💝',
 
 function checkBirthday() {
   const today = new Date();
-  const isBirthday = today.getMonth() === 0 && today.getDate() === 14; // January 15
+  const isBirthday = today.getMonth() === 0 && today.getDate() === 15; // January 15
 
   if (isBirthday) {
     // Wait 2 seconds then show birthday modal
