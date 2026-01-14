@@ -95,11 +95,6 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Set current year in footer
-if (currentYearSpan) {
-  currentYearSpan.textContent = new Date().getFullYear();
-}
-
 // Add animation to experience cards on scroll
 const observerOptions = {
   root: null,
@@ -160,21 +155,6 @@ function validateForm() {
 
   return true;
 }
-
-// Add validation to form if it exists
-if (contactForm) {
-  contactForm.addEventListener('submit', function (e) {
-    if (!validateForm()) {
-      e.preventDefault();
-      return false;
-    }
-  });
-}
-
-// Initialize the page
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('Katherine\'s portfolio website loaded successfully!');
-});
 
 // Typewriter Effect
 function initTypewriter() {
@@ -794,11 +774,542 @@ function initTestimonialsCarousel() {
   console.log('Testimonials carousel initialized, cardWidth:', cardWidth, 'visibleCards:', visibleCards);
 }
 
+// Birthday Celebration
+const CONFETTI_COLORS = ['#f8a5c2', '#ffb6c1', '#ff69b4', '#ff1493', '#e84393', '#ffffff'];
+const CONFETTI_SYMBOLS = ['🎂', '🎀', '✨', '🌸', '💖', '🎉', '💝', '🎁', '🎈'];
+
+function checkBirthday() {
+  const today = new Date();
+  const isBirthday = today.getMonth() === 0 && today.getDate() === 14; // January 15
+
+  if (isBirthday) {
+    // Wait 2 seconds then show birthday modal
+    setTimeout(() => {
+      showBirthdayCelebration();
+      addBirthdayEffects();
+    }, 2000);
+  }
+}
+
+function showBirthdayCelebration() {
+  const birthdayModal = document.getElementById('birthdayModal');
+  if (!birthdayModal) return;
+
+  birthdayModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Add event listeners
+  const closeBtn = document.getElementById('closeBirthdayBtn');
+  const celebrateBtn = document.getElementById('celebrateBtn');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      birthdayModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // stopConfetti();
+    });
+  }
+
+  if (celebrateBtn) {
+    celebrateBtn.addEventListener('click', () => {
+      createConfettiStorm();
+      playBirthdaySound();
+
+      // Add celebration message
+      celebrateBtn.innerHTML = '<i class="fas fa-sparkles"></i> YAY! Celebrating!';
+      celebrateBtn.disabled = true;
+
+      // Reset after 3 seconds
+      setTimeout(() => {
+        celebrateBtn.innerHTML = '<i class="fas fa-sparkles"></i> Let\'s Celebrate Again!';
+        celebrateBtn.disabled = false;
+      }, 3000);
+    });
+  }
+
+  // Close modal on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && birthdayModal.classList.contains('active')) {
+      birthdayModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // stopConfetti();
+    }
+  });
+
+  // Close modal when clicking outside
+  birthdayModal.addEventListener('click', (e) => {
+    if (e.target === birthdayModal) {
+      birthdayModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // stopConfetti();
+    }
+  });
+}
+
+function addBirthdayEffects() {
+  // Add floating elements to the site
+  const overlay = document.createElement('div');
+  overlay.className = 'birthday-overlay';
+
+  for (let i = 0; i < 20; i++) {
+    const floating = document.createElement('div');
+    floating.className = 'birthday-floating';
+    floating.textContent = CONFETTI_SYMBOLS[Math.floor(Math.random() * CONFETTI_SYMBOLS.length)];
+    floating.style.left = `${Math.random() * 100}%`;
+    floating.style.top = `${Math.random() * 100}%`;
+    floating.style.animationDelay = `${Math.random() * 15}s`;
+    floating.style.fontSize = `${Math.random() * 20 + 15}px`;
+    floating.style.color = getRandomPinkColor();
+    overlay.appendChild(floating);
+  }
+
+  document.body.appendChild(overlay);
+
+  // Add subtle sparkle effect to page
+  document.body.style.position = 'relative';
+  document.body.style.overflowX = 'hidden';
+}
+
+function getRandomPinkColor() {
+  const pinks = [
+    '#f8a5c2', // primary pink
+    '#ffb6c1', // light pink
+    '#ff69b4', // hot pink
+    '#ff1493', // deep pink
+    '#db7093', // pale violet red
+    '#ffc0cb', // pink
+    '#e84393'  // dark pink
+  ];
+  return pinks[Math.floor(Math.random() * pinks.length)];
+}
+
+function createConfettiStorm() {
+  const confettiCount = 150;
+
+  for (let i = 0; i < confettiCount; i++) {
+    const confetti = document.createElement('div');
+
+    // Randomly choose between colored circle or emoji
+    if (Math.random() > 0.5) {
+      // Colored circle
+      confetti.className = 'confetti';
+      confetti.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+      confetti.style.width = `${Math.random() * 10 + 5}px`;
+      confetti.style.height = confetti.style.width;
+      confetti.style.borderRadius = '50%';
+    } else {
+      // Emoji
+      confetti.className = 'confetti';
+      confetti.textContent = CONFETTI_SYMBOLS[Math.floor(Math.random() * CONFETTI_SYMBOLS.length)];
+      confetti.style.fontSize = `${Math.random() * 15 + 10}px`;
+      confetti.style.background = 'transparent';
+      confetti.style.width = 'auto';
+      confetti.style.height = 'auto';
+    }
+
+    confetti.style.left = `${Math.random() * 100}vw`;
+    confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+    confetti.style.animationDelay = `${Math.random() * 1}s`;
+
+    document.body.appendChild(confetti);
+
+    // Remove confetti after animation
+    setTimeout(() => {
+      confetti.remove();
+    }, 5000);
+  }
+}
+
+function stopConfetti() {
+  const confetti = document.querySelectorAll('.confetti');
+  confetti.forEach(c => c.remove());
+
+  const overlay = document.querySelector('.birthday-overlay');
+  if (overlay) overlay.remove();
+}
+
+// Preload the audio file
+let birthdayAudio = null;
+
+function preloadBirthdayAudio() {
+  try {
+    birthdayAudio = new Audio('hbd-song.mp3');
+    birthdayAudio.preload = 'auto';
+    birthdayAudio.volume = 0.7;
+
+    // Optional: Add loading states
+    birthdayAudio.addEventListener('canplaythrough', () => {
+      console.log('Birthday song ready! 🎵');
+    });
+
+    birthdayAudio.addEventListener('error', (e) => {
+      console.error('Error loading birthday song:', e);
+    });
+  } catch (error) {
+    console.error('Error creating audio element:', error);
+  }
+}
+
+function playBirthdaySound() {
+  console.log('Attempting to play birthday sound...');
+
+  if (!birthdayAudio) {
+    console.log('Audio not preloaded, creating new...');
+    try {
+      birthdayAudio = new Audio('hbd-song.mp3');
+      birthdayAudio.volume = 0.7;
+    } catch (error) {
+      console.error('Error creating audio:', error);
+      playFallbackSound();
+      return;
+    }
+  }
+
+  // Reset to start if already playing
+  birthdayAudio.currentTime = 0;
+
+  // Try to play
+  const playPromise = birthdayAudio.play();
+
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      console.log('Birthday song playing! 🎶');
+    }).catch(error => {
+      console.log('Playback prevented:', error);
+      // Show play button in modal
+      showPlayButton();
+    });
+  }
+}
+
+function showPlayButton() {
+  console.log('Showing play button...');
+  const celebrateBtn = document.getElementById('celebrateBtn');
+  if (celebrateBtn && !document.querySelector('.play-song-btn')) {
+    const playBtn = document.createElement('button');
+    playBtn.className = 'play-song-btn birthday-button birthday-celebrate';
+    playBtn.innerHTML = '<i class="fas fa-play"></i> Play Birthday Song';
+    playBtn.style.marginTop = '10px';
+    playBtn.onclick = (e) => {
+      e.stopPropagation();
+      console.log('Play button clicked');
+      playBirthdaySound();
+      playBtn.style.display = 'none';
+    };
+    celebrateBtn.parentNode.insertBefore(playBtn, celebrateBtn.nextSibling);
+    console.log('Play button added to modal');
+  }
+}
+
+function playFallbackSound() {
+  console.log('Playing fallback sound...');
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Play multiple tones for celebration effect
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = 523.25 + (i * 100); // C5 scale
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+      }, i * 100);
+    }
+  } catch (e) {
+    console.log('Audio not supported');
+  }
+}
+
+// Enhanced Confetti Functions
+function createDirectionalConfetti(direction = 'all', count = 100) {
+  // Determine which directions to use
+  const directions = direction === 'all'
+    ? ['left', 'right', 'top', 'bottom']
+    : [direction];
+
+  let confettiCount = 0;
+
+  directions.forEach(dir => {
+    const dirCount = Math.ceil(count / directions.length);
+
+    for (let i = 0; i < dirCount; i++) {
+      setTimeout(() => {
+        createSingleConfetti(dir);
+        confettiCount++;
+      }, i * 20); // Stagger creation
+    }
+  });
+
+  return confettiCount;
+}
+
+function createSingleConfetti(direction) {
+  const confetti = document.createElement('div');
+
+  // Random confetti type
+  const type = Math.random();
+
+  if (type < 0.3) {
+    // Colored circle
+    confetti.className = `confetti confetti-from-${direction} confetti-circle`;
+    confetti.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    confetti.style.width = `${Math.random() * 12 + 8}px`;
+    confetti.style.height = confetti.style.width;
+  } else if (type < 0.6) {
+    // Square
+    confetti.className = `confetti confetti-from-${direction} confetti-square`;
+    confetti.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    confetti.style.width = `${Math.random() * 10 + 5}px`;
+    confetti.style.height = confetti.style.width;
+  } else if (type < 0.8) {
+    // Triangle
+    confetti.className = `confetti confetti-from-${direction} confetti-triangle`;
+    const color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    confetti.style.borderBottom = `16px solid ${color}`;
+    confetti.style.width = '0';
+    confetti.style.height = '0';
+  } else {
+    // Emoji
+    confetti.className = `confetti confetti-from-${direction} confetti-heart`;
+    confetti.textContent = CONFETTI_SYMBOLS[Math.floor(Math.random() * CONFETTI_SYMBOLS.length)];
+    confetti.style.fontSize = `${Math.random() * 20 + 15}px`;
+    confetti.style.background = 'transparent';
+  }
+
+  // Randomize position based on direction
+  switch (direction) {
+    case 'left':
+      confetti.style.left = '0';
+      confetti.style.top = `${Math.random() * 100}vh`;
+      break;
+    case 'right':
+      confetti.style.right = '0';
+      confetti.style.top = `${Math.random() * 100}vh`;
+      break;
+    case 'top':
+      confetti.style.top = '0';
+      confetti.style.left = `${Math.random() * 100}vw`;
+      break;
+    case 'bottom':
+      confetti.style.bottom = '0';
+      confetti.style.left = `${Math.random() * 100}vw`;
+      break;
+  }
+
+  // Random animation duration
+  const duration = Math.random() * 3 + 2;
+  confetti.style.animationDuration = `${duration}s`;
+  confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+
+  document.body.appendChild(confetti);
+
+  // Remove confetti after animation
+  setTimeout(() => {
+    if (confetti.parentNode) {
+      confetti.remove();
+    }
+  }, duration * 1000 + 500);
+}
+
+// Update the startCountdown function to play the birthday song
+function startCountdown() {
+  const countdownOverlay = document.getElementById('countdownOverlay');
+  if (!countdownOverlay) return;
+
+  console.log('Starting countdown...');
+  countdownOverlay.classList.add('active');
+
+  // Reset all countdown numbers
+  for (let i = 1; i <= 4; i++) {
+    const element = document.getElementById(`countdown${i === 4 ? 'Celebrate' : i}`);
+    if (element) {
+      element.style.animation = 'none';
+      element.offsetHeight; // Trigger reflow
+      element.style.animation = '';
+    }
+  }
+
+  // After countdown completes
+  setTimeout(() => {
+    countdownOverlay.classList.remove('active');
+
+    // Create massive confetti celebration from all directions
+    createDirectionalConfetti('all', 3000);
+
+    // Add birthday song
+    console.log('Countdown complete, playing birthday song...');
+    playBirthdaySound();
+
+  }, 4000); // 3 seconds countdown + 1 second for "Celebrate!"
+}
+
+// Update the celebrate button event listener
+function setupBirthdayEvents() {
+  const closeBtn = document.getElementById('closeBirthdayBtn');
+  const celebrateBtn = document.getElementById('celebrateBtn');
+  const birthdayModal = document.getElementById('birthdayModal');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      birthdayModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Stop audio if playing
+      if (birthdayAudio) {
+        birthdayAudio.pause();
+        birthdayAudio.currentTime = 0;
+      }
+    });
+  }
+
+  if (celebrateBtn) {
+    // Remove any existing event listeners first
+    celebrateBtn.replaceWith(celebrateBtn.cloneNode(true));
+    const newCelebrateBtn = document.getElementById('celebrateBtn');
+
+    newCelebrateBtn.addEventListener('click', () => {
+      console.log('Celebrate button clicked!');
+      // Start countdown instead of immediate confetti
+      startCountdown();
+
+      // Update button state
+      newCelebrateBtn.innerHTML = '<i class="fas fa-sparkles"></i> Countdown Started!';
+      newCelebrateBtn.disabled = true;
+
+      // Reset button after celebration
+      setTimeout(() => {
+        newCelebrateBtn.innerHTML = '<i class="fas fa-sparkles"></i> Let\'s Celebrate Again!';
+        newCelebrateBtn.disabled = false;
+      }, 5000);
+    });
+  }
+
+  // Close modal on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && birthdayModal.classList.contains('active')) {
+      birthdayModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      if (birthdayAudio) {
+        birthdayAudio.pause();
+        birthdayAudio.currentTime = 0;
+      }
+    }
+  });
+
+  // Close modal when clicking outside
+  birthdayModal.addEventListener('click', (e) => {
+    if (e.target === birthdayModal) {
+      birthdayModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      if (birthdayAudio) {
+        birthdayAudio.pause();
+        birthdayAudio.currentTime = 0;
+      }
+    }
+  });
+}
+
+// Update the showBirthdayCelebration function
+function showBirthdayCelebration() {
+  const birthdayModal = document.getElementById('birthdayModal');
+  if (!birthdayModal) return;
+
+  console.log('Showing birthday celebration modal');
+  birthdayModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Setup event listeners
+  setupBirthdayEvents();
+
+  // Add initial subtle confetti
+  setTimeout(() => {
+    createDirectionalConfetti('top', 30);
+  }, 1000);
+}
+
+// Enhanced celebration sound
+function playCelebrationSound() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Play celebratory chord (C major: C-E-G)
+    const notes = [523.25, 659.25, 783.99]; // C5, E5, G5
+
+    notes.forEach((frequency, index) => {
+      setTimeout(() => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 1);
+      }, index * 100);
+    });
+  } catch (e) {
+    console.log('Audio not supported, continuing without sound');
+  }
+}
+
+// Update stopConfetti function
+function stopConfetti() {
+  const confetti = document.querySelectorAll('.confetti');
+  confetti.forEach(c => c.remove());
+
+  const overlay = document.querySelector('.birthday-overlay');
+  if (overlay) overlay.remove();
+
+  const countdown = document.getElementById('countdownOverlay');
+  if (countdown) countdown.classList.remove('active');
+}
+
+// Add scrollability check for mobile
+function ensureScrollability() {
+  const birthdayContent = document.querySelector('.birthday-content');
+
+  if (birthdayContent) {
+    // Check if content is taller than viewport
+    const viewportHeight = window.innerHeight;
+    const contentHeight = birthdayContent.scrollHeight;
+
+    if (contentHeight > viewportHeight * 0.8) {
+      birthdayContent.style.maxHeight = '85vh';
+    }
+  }
+}
+
+// Also check on window resize
+window.addEventListener('resize', ensureScrollability);
+
 // Call in DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Katherine\'s portfolio website loaded successfully!');
+  preloadBirthdayAudio();
   initTypewriter();
   initTestimonials();
   initExperienceCarousel();
   initTestimonialsCarousel();
+  checkBirthday(); // Add this line
+  setTimeout(ensureScrollability, 100);
+
+  // Set current year in footer
+  if (currentYearSpan) {
+    currentYearSpan.textContent = new Date().getFullYear();
+  }
 });

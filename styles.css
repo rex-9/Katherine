@@ -1584,3 +1584,826 @@ footer {
     font-size: 13px;
   }
 }
+
+/* ============ BIRTHDAY CELEBRATION ============ */
+.birthday-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+      rgba(248, 165, 194, 0.95) 0%,
+      rgba(232, 67, 147, 0.95) 50%,
+      rgba(255, 182, 193, 0.95) 100%);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.birthday-modal.active {
+  display: flex;
+}
+
+.birthday-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 25px;
+  padding: 40px;
+  max-width: 600px;
+  width: 90%;
+  min-height: 90vh;
+  text-align: center;
+  box-shadow:
+    0 20px 60px rgba(232, 67, 147, 0.3),
+    0 0 0 10px rgba(255, 255, 255, 0.2),
+    0 0 0 20px rgba(248, 165, 194, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.6s ease;
+  overflow-y: auto;
+  padding-right: 15px;
+}
+
+.birthday-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  background: linear-gradient(45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%);
+  pointer-events: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.birthday-header {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.birthday-sparkle {
+  font-size: 40px;
+  margin-bottom: 15px;
+  animation: sparkleTwinkle 2s infinite;
+}
+
+@keyframes sparkleTwinkle {
+
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.birthday-title {
+  font-size: 36px;
+  color: var(--dark-pink);
+  margin-bottom: 10px;
+  font-weight: 800;
+  text-shadow: 2px 2px 4px rgba(232, 67, 147, 0.2);
+}
+
+.birthday-name {
+  background: var(--gradient-pink);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  display: inline-block;
+}
+
+.birthday-name::after {
+  content: '🎀';
+  position: absolute;
+  top: -10px;
+  right: -30px;
+  font-size: 24px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(10deg);
+  }
+}
+
+.birthday-subtitle {
+  font-size: 20px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Birthday Cake Animation */
+.birthday-animation {
+  margin: 60px 0;
+  position: relative;
+  height: 70px;
+}
+
+.birthday-cake {
+  position: relative;
+  width: 120px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.cake-layer {
+  position: absolute;
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.layer-1 {
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(to bottom, #ffb6c1, #ff69b4);
+  bottom: 0;
+  animation: cakeFloat 3s ease-in-out infinite;
+}
+
+.layer-2 {
+  width: 100px;
+  height: 35px;
+  background: linear-gradient(to bottom, #ffc0cb, #ff1493);
+  bottom: 35px;
+  animation: cakeFloat 3s ease-in-out infinite 0.2s;
+}
+
+.layer-3 {
+  width: 80px;
+  height: 30px;
+  background: linear-gradient(to bottom, #ffd1dc, #db7093);
+  bottom: 65px;
+  animation: cakeFloat 3s ease-in-out infinite 0.4s;
+}
+
+@keyframes cakeFloat {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+.cake-candles {
+  position: absolute;
+  bottom: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.candle {
+  width: 6px;
+  height: 25px;
+  background: linear-gradient(to bottom, #ff6b6b, #ff4757);
+  border-radius: 3px;
+  position: relative;
+  animation: candleFlicker 1.5s infinite alternate;
+}
+
+.candle::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #ffd700;
+  border-radius: 50%;
+  filter: blur(2px);
+  animation: flameFlicker 1s infinite alternate;
+}
+
+.candle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.candle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.candle:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+.candle:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes candleFlicker {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-2px) rotate(2deg);
+  }
+}
+
+@keyframes flameFlicker {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.2);
+  }
+}
+
+.cake-sparkles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--gradient-pink);
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: sparkleFloat 4s linear infinite;
+}
+
+.sparkle:nth-child(1) {
+  top: 20px;
+  left: 20px;
+  animation-delay: 0s;
+}
+
+.sparkle:nth-child(2) {
+  top: 40px;
+  right: 30px;
+  animation-delay: 1s;
+}
+
+.sparkle:nth-child(3) {
+  bottom: 50px;
+  left: 40px;
+  animation-delay: 2s;
+}
+
+.sparkle:nth-child(4) {
+  bottom: 30px;
+  right: 20px;
+  animation-delay: 3s;
+}
+
+@keyframes sparkleFloat {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Birthday Message */
+.birthday-message {
+  margin: 30px 0;
+}
+
+.birthday-quote {
+  font-size: 18px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: rgba(248, 165, 194, 0.1);
+  border-radius: 15px;
+  border-left: 4px solid var(--dark-pink);
+}
+
+.birthday-wishes {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.wish-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(248, 165, 194, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.wish-item:hover {
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.wish-item i {
+  color: var(--dark-pink);
+  font-size: 20px;
+  width: 30px;
+}
+
+.wish-item span {
+  color: var(--text-dark);
+  font-weight: 500;
+  text-align: left;
+  flex: 1;
+}
+
+/* Birthday Actions */
+.birthday-actions {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.birthday-button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.birthday-celebrate {
+  background: var(--gradient-pink);
+  color: white;
+  box-shadow: 0 8px 25px rgba(232, 67, 147, 0.3);
+}
+
+.birthday-celebrate:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(232, 67, 147, 0.4);
+}
+
+.birthday-close {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--dark-pink);
+  border: 2px solid var(--dark-pink);
+}
+
+.birthday-close:hover {
+  background: var(--gradient-pink);
+  color: white;
+  transform: translateY(-5px);
+}
+
+/* Birthday Footer */
+.birthday-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px dashed rgba(232, 67, 147, 0.3);
+}
+
+.birthday-note {
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Floating Confetti */
+.confetti {
+  position: fixed;
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+  z-index: 10000;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Birthday Site Overlay */
+.birthday-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.birthday-floating {
+  position: absolute;
+  font-size: 24px;
+  animation: floatAcross 15s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatAcross {
+  0% {
+    transform: translateX(-100px) translateY(100px) rotate(0deg);
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(360deg);
+  }
+}
+
+/* ============ COUNTDOWN STYLES ============ */
+.countdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+      rgba(248, 165, 194, 0.98) 0%,
+      rgba(232, 67, 147, 0.98) 50%,
+      rgba(255, 182, 193, 0.98) 100%);
+  z-index: 10000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.countdown-overlay.active {
+  display: flex;
+}
+
+.countdown-container {
+  text-align: center;
+  position: relative;
+}
+
+.countdown-number {
+  font-size: 120px;
+  font-weight: 800;
+  color: white;
+  text-shadow:
+    0 0 30px rgba(255, 255, 255, 0.8),
+    0 10px 30px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  animation: countdownPop 0.8s ease-out forwards;
+}
+
+.countdown-number:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.countdown-number:nth-child(2) {
+  animation-delay: 1.2s;
+}
+
+.countdown-number:nth-child(3) {
+  animation-delay: 2.2s;
+}
+
+.countdown-number:nth-child(4) {
+  animation-delay: 3.2s;
+}
+
+@keyframes countdownPop {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
+    opacity: 1;
+  }
+
+  70% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(0) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* Scrollable content */
+.scrollable-content {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin: 20px 0;
+}
+
+.scrollable-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: rgba(248, 165, 194, 0.1);
+  border-radius: 10px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: var(--gradient-pink);
+  border-radius: 10px;
+}
+
+.birthday-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.birthday-content::-webkit-scrollbar-track {
+  background: rgba(248, 165, 194, 0.1);
+  border-radius: 10px;
+}
+
+.birthday-content::-webkit-scrollbar-thumb {
+  background: var(--gradient-pink);
+  border-radius: 10px;
+}
+
+/* Enhanced Confetti Styles */
+.confetti {
+  position: fixed;
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+}
+
+/* Confetti from different directions */
+.confetti-from-left {
+  left: -50px;
+  animation: confettiFromLeft linear forwards;
+}
+
+.confetti-from-right {
+  right: -50px;
+  animation: confettiFromRight linear forwards;
+}
+
+.confetti-from-top {
+  top: -50px;
+  animation: confettiFromTop linear forwards;
+}
+
+.confetti-from-bottom {
+  bottom: -50px;
+  animation: confettiFromBottom linear forwards;
+}
+
+/* Directional Confetti Animations */
+@keyframes confettiFromLeft {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 100px)) translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes confettiFromRight {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(calc(-100vw - 100px)) translateY(100vh) rotate(-720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes confettiFromTop {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(calc(50vw - 50%)) translateY(calc(100vh + 100px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes confettiFromBottom {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(calc(50vw - 50%)) translateY(calc(-100vh - 100px)) rotate(-360deg);
+    opacity: 0;
+  }
+}
+
+/* Confetti Types */
+.confetti-circle {
+  border-radius: 50%;
+}
+
+.confetti-square {
+  border-radius: 3px;
+}
+
+.confetti-triangle {
+  width: 0;
+  height: 0;
+  background: transparent !important;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+
+.confetti-heart {
+  background: transparent !important;
+  font-size: 20px;
+  width: auto;
+  height: auto;
+}
+
+.play-song-btn {
+  background: #4CAF50 !important;
+  margin-top: 10px !important;
+}
+
+.play-song-btn:hover {
+  background: #45a049 !important;
+  transform: translateY(-3px) !important;
+}
+
+/* Responsive Design for Birthday */
+@media (max-width: 768px) {
+  .birthday-content {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+
+  .birthday-title {
+    font-size: 28px;
+  }
+
+  .birthday-subtitle {
+    font-size: 18px;
+  }
+
+  .birthday-quote {
+    font-size: 16px;
+    padding: 15px;
+  }
+
+  .birthday-button {
+    min-width: 100%;
+  }
+
+  .birthday-actions {
+    flex-direction: column;
+  }
+
+  .wish-item {
+    padding: 10px 15px;
+  }
+
+  .countdown-number {
+    font-size: 80px;
+  }
+
+  .birthday-content {
+    max-height: 90vh;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .birthday-content {
+    padding: 25px 15px;
+  }
+
+  .birthday-title {
+    font-size: 24px;
+  }
+
+  .birthday-sparkle {
+    font-size: 30px;
+  }
+
+  .birthday-animation {
+    height: 50px;
+  }
+
+  .birthday-cake {
+    width: 100px;
+    height: 80px;
+  }
+
+  .layer-1 {
+    width: 100px;
+    height: 35px;
+  }
+
+  .layer-2 {
+    width: 85px;
+    height: 30px;
+    bottom: 30px;
+  }
+
+  .layer-3 {
+    width: 70px;
+    height: 25px;
+    bottom: 55px;
+  }
+
+
+  .cake-candles {
+    bottom: 75px;
+  }
+
+  .countdown-number {
+    font-size: 60px;
+  }
+
+  .birthday-content {
+    max-height: 95vh;
+  }
+}
