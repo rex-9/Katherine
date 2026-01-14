@@ -1614,7 +1614,7 @@ footer {
   padding: 40px;
   max-width: 600px;
   width: 90%;
-  min-height: 90vh;
+  min-height: 90%;
   text-align: center;
   box-shadow:
     0 20px 60px rgba(232, 67, 147, 0.3),
@@ -2350,7 +2350,6 @@ footer {
   }
 
   .birthday-content {
-    max-height: 90vh;
     margin: 10px;
   }
 }
@@ -2401,9 +2400,5 @@ footer {
 
   .countdown-number {
     font-size: 60px;
-  }
-
-  .birthday-content {
-    max-height: 95vh;
   }
 }
